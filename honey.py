@@ -12,7 +12,7 @@ def main():
         while 1:
             client_con,client_addr = get_socket_con.accept()
             print("Visiter found!   -   [{}]".format(client_addr[0]))
-            client_con.send(b"<h1>te cagué perro ql</h1>")
+            client_con.send(b"<h1>te cague perro ql</h1>")
             data = client_con.recv(2048)
             print(data)
     except error as ide:
