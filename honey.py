@@ -12,16 +12,17 @@ def ssh(msg="",listeners=2):
     s = socket.socket( socket.AF_INET, socket.SOCK_STREAM)
     s.bind(('', 22))#binding for the ssh port
     print("\nSSH Honeypot ready(Waiting For Attackers)..\n")
-    s.listen(int(listeners))
+    s.listen()
     stat=0
     n=0
     ips=[]
     rqs=["http","HTTP/1.0","GET","bind","version","OPTIONS"]
     while True:
         n+=1
-        c,attacker= s.accept()
+        (c,attacker)= s.accept()
         port=attacker[1]
         ip=attacker[0]
+        print(str(port)+":"+str(ip)+" se conecto")
         c.send("login as: ".encode())
         login=c.recv(1024)
         c.send(login+b"@host's password: ")
