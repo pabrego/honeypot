@@ -22,7 +22,9 @@ def ssh(msg="",listeners=2):
         (c,attacker)= s.accept()
         port=attacker[1]
         ip=attacker[0]
-        print(str(port)+":"+str(ip)+" se conecto")
+        print(str(ip)+":"+str(port)+" se conecto")
+        m = c.recv(1024)
+        print(m.decode())
         c.send("login as: ".encode())
         login=c.recv(1024)
         c.send(login+b"@host's password: ")
