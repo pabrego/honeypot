@@ -27,13 +27,7 @@ def ssh(msg="",listeners=2):
         print(str(ip)+":"+str(port)+" se conecto")
         m = c.recv(1024)
         print(m.decode())
-
-        sesion = paramiko.Transport(c)
-        paramiko.util.log_to_file('salida.log')
-        sesion.start_server()
-        chan = sesion.acccept()
-        chan.send('hola')
-
+        print("\n ["+str(n)+"] IP: "+str(ip)+"\tPort: "+str(port)+"\n") 
         c.send("login as: ".encode())
         login=c.recv(1024)
         c.send(login+b"@host's password: ")
@@ -46,45 +40,6 @@ def ssh(msg="",listeners=2):
         c.send(PROMPT.encode())
         data = str(c.recv(1024).decode())
         print(data)
-
-        for rq in rqs:          # detecta escaneos con nmap, y deja registro de quién escanea
-            if rq in data.split(" ") or data.split(" ")=="" or data==" " :
-                our_log.write(" ["+str(datetime.now())+"] ["+str(ip)+"] is Scanning us With nmap looking for service info.!"+"\n")
-                print(" ["+str(datetime.now())+"] ["+str(ip)+"] is Scanning us With nmap looking for service info.!"+"\n")
-                if ip in ips:c.close()
-                stat=1
-                break
-
-        if data.split(" ")[0] == "id":
-            our_log.write(" ["+str(ip)+"][!]Command: "+str(data)+"\n")
-            print(" ["+str(ip)+"][!]Command: "+str(data)+"\n")
-            c.send(b"\nuid=0(root) gid=0(root) groups=0(root)")
-            our_log.write("  ["+str(ip)+"]>Output: uid=0(root) gid=0(root) groups=0(root)\n")
-            print("  ["+str(ip)+"]>Output: uid=0(root) gid=0(root) groups=0(root)\n")
-            c.send(str(msg).encode()+b'\n')
-            stat=1
-            c.close()
-
-        elif data.split(" ")[0] == "uname":
-            our_log.write(" ["+str(ip)+"]!]Command: "+str(data)+"\n")
-            print(" ["+str(ip)+"][!]Command: "+str(data)+"\n")
-            c.send(b"\nLinux f001 3.13.3-7-high-octane-fueled #3000-LPG SMPx4 Fri Jun 31 25:24:23 UTC 2200 x86_64 x64_86 x13_37 GNU/Linux")
-            our_log.write("  ["+str(ip)+"]>Output: Linux f001 3.13.3-7-high-octane-fueled #3000-LPG SMPx4 Fri Jun 31 25:24:23 UTC 2200 x86_64 x64_86 x13_37 GNU/Linux\n")
-            print("  ["+str(ip)+"]>Output: Linux f001 3.13.3-7-high-octane-fueled #3000-LPG SMPx4 Fri Jun 31 25:24:23 UTC 2200 x86_64 x64_86 x13_37 GNU/Linux\n")
-            c.send(str(msg).encode()+b'\n')
-            stat=1
-            c.close()
-
-        elif stat==0:
-            our_log.write("\t[!]Command: "+str(data)+"\n")
-            print(" ["+str(ip)+"][!]Command: "+str(data)+"\n")
-            c.send(b"\n"+str(data.split(" ")[0]).encode() + b": command not found")
-            our_log.write("   ["+str(ip)+"]>Output: "+ data.split(" ")[0] + ": command not found\n")
-            print("   ["+str(ip)+"]>Output: "+ data.split(" ")[0] + ": command not found\n")
-            c.send(str(msg).encode()+b'\n')
-            c.close()
-        our_log.write("="*10)
-        print("="*10)
 
     our_log.close()
 
