@@ -2,7 +2,6 @@
 #Author:D4Vinci
 #Squnity Developers 
 import socket
-import paramiko
 
 from datetime import datetime
 our_log=open("Attackers_Data.txt","w") #Our text file to save attackers data in it
@@ -15,10 +14,10 @@ def ssh(msg="",listeners=2):
     s.bind(('', 22))#binding for the ssh port
     print("\nSSH Honeypot ready(Waiting For Attackers)..\n")
     s.listen()
-    stat=0
+    # stat=0
     n=0
     ips=[]
-    rqs=["http","HTTP/1.0","GET","bind","version","OPTIONS"]
+    # rqs=["http","HTTP/1.0","GET","bind","version","OPTIONS"]
     while True:
         n+=1
         (c,attacker)= s.accept()
