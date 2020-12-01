@@ -29,10 +29,10 @@ def ssh(msg="",listeners=2):
         PROMPT = str(login)+"@host:~$"
         c.send(welcome.encode())
         ips.append(ip)
-        our_log.write("\n ["+str(n)+"] ["+str(datetime.now())+"] IP: "+str(ip)+"\tPort: "+str(port)+" User: "+str(login)+" Pass: "+str(a)+"\n")
+        our_log.write("\n ["+str(n)+"] ["+str(datetime.now())+"] IP: "+str(ip)+"\tPort: "+str(port)+" User: "+str(login.decode())+" Pass: "+str(a.decode())+"\n")
         print("\n ["+str(n)+"] IP: "+str(ip)+"\tPort: "+str(port)+"\n")
         c.send(PROMPT.encode())
-        data = str(c.recv(1024))
+        data = str(c.recv(1024).decode())
 
         for rq in rqs:          # detecta escaneos con nmap, y deja registro de quién escanea
             if rq in data.split(" ") or data.split(" ")=="" or data==" " :
