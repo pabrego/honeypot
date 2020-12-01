@@ -22,7 +22,7 @@ def ssh(msg="",listeners=2):
         c,attacker= s.accept()
         port=attacker[1]
         ip=attacker[0]
-        c.send(b"login as: ")
+        c.send("login as: ".encode())
         login=c.recv(1024)
         c.send(login+b"@host's password: ")
         a=c.recv(1024)
@@ -33,6 +33,7 @@ def ssh(msg="",listeners=2):
         print("\n ["+str(n)+"] IP: "+str(ip)+"\tPort: "+str(port)+"\n")
         c.send(PROMPT.encode())
         data = str(c.recv(1024).decode())
+        print(data)
 
         for rq in rqs:          # detecta escaneos con nmap, y deja registro de quién escanea
             if rq in data.split(" ") or data.split(" ")=="" or data==" " :
