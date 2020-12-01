@@ -2,6 +2,8 @@
 #Author:D4Vinci
 #Squnity Developers 
 import socket
+import paramiko
+
 from datetime import datetime
 our_log=open("Attackers_Data.txt","w") #Our text file to save attackers data in it
 
@@ -25,6 +27,13 @@ def ssh(msg="",listeners=2):
         print(str(ip)+":"+str(port)+" se conecto")
         m = c.recv(1024)
         print(m.decode())
+
+        sesion = paramiko.Transport(c)
+        paramiko.util.log_to_file('salida.log')
+        sesion.start_server()
+        chan = sesion.acccept()
+        chan.send('hola')
+
         c.send("login as: ".encode())
         login=c.recv(1024)
         c.send(login+b"@host's password: ")
