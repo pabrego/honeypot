@@ -8,7 +8,6 @@ our_log=open("Attackers_Data.txt","w") #Our text file to save attackers data in 
 
 def ssh(msg="",listeners=2):
     welcome="""BIENVENIDO AL HONEYPOT DE SSH\n
-    Te recomiendo que cortes la ejecución del comando porque estas aquí eternamente\n
     """
     s = socket.socket( socket.AF_INET, socket.SOCK_STREAM)
     s.bind(('', 22))#binding for the ssh port
@@ -23,12 +22,12 @@ def ssh(msg="",listeners=2):
         (c,attacker)= s.accept()
         port=attacker[1]
         ip=attacker[0]
-        print(str(ip)+":"+str(port)+" se conecto")
+        print("Atacante "+str(ip)+":"+str(port)+" se conecto")
         m = c.recv(1024)
         print(m.decode())
         print("\n ["+str(n)+"] IP: "+str(ip)+"\tPort: "+str(port)+"\n") 
         c.send("login as: ".encode())
-        login=c.recv(1024)
+        login=c.recvfrom(1024)
         c.send(login+b"@host's password: ")
         a=c.recv(1024)
         PROMPT = str(login)+"@host:~$"
