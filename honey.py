@@ -28,7 +28,7 @@ def ssh(msg="",listeners=2):
         print("\n ["+str(n)+"] IP: "+str(ip)+"\tPort: "+str(port)+"\n") 
         c.send("login as: ".encode())
         login=c.recvfrom(1024)
-        c.send(login+b"@host's password: ")
+        c.send(str(login).encode()+"@host's password: ".encode())
         a=c.recv(1024)
         PROMPT = str(login)+"@host:~$"
         c.send(welcome.encode())
